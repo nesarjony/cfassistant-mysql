@@ -691,3 +691,10 @@ box-shadow: 0;
 transition: box-shadow 0.45s;
 box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+.selected {
+    background-color: #fbd1b7;
+    color: #216583;
+    border-color: #dfd7ca;
+    font-weight:bold;
+}

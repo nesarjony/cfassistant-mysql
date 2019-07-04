@@ -22,3 +22,5 @@ Route::post('/contest/apply', 'ContestController@applyfilter');
 Route::get('/contest/update', 'ContestController@updateContest')->name('/contest/update');
 Route::get('/problem/update', 'ProblemController@updateProblems')->name('/problem/update');
 Route::get('/submission/update', 'SubmissionController@updateSubmission')->name('/submission/update');
+Route::get('/updateZahin', 'ZahinController@update')->name('/updateZahin');
+Route::get('/submissionZahin', 'ZahinController@index')->name('/submissionZahin');

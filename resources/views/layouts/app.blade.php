@@ -77,14 +77,45 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('/contest') }}">{{ __('Contest') }}</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('/submission/update') }}">{{ __('Update Submission') }}</a>
+                        
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Update <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('/submission/update') }}">
+                                        {{ __('Update Submission') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('/contest/update') }}">
+                                        {{ __('Update Contest') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('/problem/update') }}">
+                                        {{ __('Update Problem') }}
+                                    </a>
+                                </div>
+                         
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('/contest/update') }}">{{ __('Update Contest') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('/problem/update') }}">{{ __('Update Problem') }}</a>
+                          
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Sgtlaugh <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('/submissionZahin') }}">
+                                
+                                        {{ __('Submission') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('/updateZahin') }}">
+                                
+                                        {{ __('Update') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
                             </li>
                            
                        
@@ -157,7 +188,11 @@ function toggleFunction(id) {
   } else {
     x.style.display = "none";
   }
-}
+} 
+$("#table tr").click(function(){
+   $(this).addClass('selected').siblings().removeClass('selected');    
+   
+});
 </script>
 </body>
 </html>

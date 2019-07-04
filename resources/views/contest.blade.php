@@ -79,7 +79,7 @@
             <div class="panel-heading">
               <h3 class="panel-title">Contest</h3></div>
             <div class="table-responsive">
-                <table data-reload="no" class="table table-standings">
+                <table data-reload="no" id="table" class="table table-standings">
                     <thead>
                         <tr>
                             <th rowspan="2" style="vertical-align: middle;">#</th>
