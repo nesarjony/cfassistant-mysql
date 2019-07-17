@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Submission;
 use App\Zahin;
+use App\Problem;
 use App\Contest;
 use Session;
 use GuzzleHttp\Exception\GuzzleException;
@@ -21,8 +22,17 @@ class ZahinController extends Controller
         );
     }
     public function index(){
-        $problems = Zahin::paginate(30); 
-        //$page = response()->json($problems);
+        $problems = Zahin::where('rating', '>=', 1)
+        ->where('rating', '<=', 5000)
+        ->paginate(30);
+        $problemsAll = Zahin::all()->where('rating', '>=', 1400)
+        ->where('rating', '<=', 5000);
+        $unique = [];
+        foreach($problemsAll as $single){
+            $id = $single->contestId.$single->index;
+            if(!isset($unique[$id])) $unique[$id]=1;
+        }
+        $total = count($unique); 
         $contests = Contest::all();
         $submissions = Submission::all();
         $res = [];
@@ -35,23 +45,39 @@ class ZahinController extends Controller
             }
             if($single->verdict === "OK"){
                 $res[$id]["solved"] = 1;
+                if(isset($unique[$id]))
+                    $unique[$id] = 2;
             }else if($single->verdict !== "OK"){
                 if(!isset($res[$id]["solved"] )){
                     $res[$id]["solved"] = 0;
                 }
+                if(isset($unique[$id]) && $unique[$id] !=2)
+                    $unique[$id] = 3;
             }
         }
+        $ans = 0;
+        foreach($unique as $r => $value){
+           $ans += ($value == 3);
+           $ans += ($value == 1);
+        }
+        //var_dump($ans);
         $contest = [];
         foreach($contests as $single){
             $contest[$single->contestId] = $single->name;
         }
-        return view('zahin')->with('problems',$problems)->with('res',$res)->with('contest',$contest);
+       return view('zahin')->with('problems',$problems)->with('res',$res)->with('contest',$contest)->with('total',$ans);
         
     }
     public function update(){
        Zahin::truncate();
        $user = "sgtlaugh";
        $submissions = $this->fetchSubmission($user)->result;
+       $allProblems = Problem::all();
+       $rating = [];
+       foreach($allProblems as $single){
+           $id = $single->contestId.$single->index;
+           $rating[$id] = $single->rating;
+       }
 
        for($i = 0; $i < count($submissions); $i++){
            $singleSubmission = new Zahin();
@@ -60,6 +86,8 @@ class ZahinController extends Controller
            $singleSubmission->creationTimeSeconds = $submissions[$i]->creationTimeSeconds;
            $singleSubmission->index = $submissions[$i]->problem->index;
            $singleSubmission->name = $submissions[$i]->problem->name;
+           $ID = $singleSubmission->contestId.$singleSubmission->index;
+           $singleSubmission->rating = isset($rating[$ID]) ? $rating[$ID] : 1500;
            $singleSubmission->participantType = isset($submissions[$i]->author->participantType)?$submissions[$i]->author->participantType:"";
            $singleSubmission->programmingLanguage = $submissions[$i]->programmingLanguage;
            $singleSubmission->verdict = isset($submissions[$i]->verdict)?$submissions[$i]->verdict:"Not Attempt";

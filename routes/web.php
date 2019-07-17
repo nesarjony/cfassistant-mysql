@@ -24,3 +24,4 @@ Route::get('/problem/update', 'ProblemController@updateProblems')->name('/proble
 Route::get('/submission/update', 'SubmissionController@updateSubmission')->name('/submission/update');
 Route::get('/updateZahin', 'ZahinController@update')->name('/updateZahin');
 Route::get('/submissionZahin', 'ZahinController@index')->name('/submissionZahin');
+Route::get('/Zahin/Apply', 'ZahinController@appyfilter');

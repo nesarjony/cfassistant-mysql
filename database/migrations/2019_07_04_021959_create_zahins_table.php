@@ -22,6 +22,7 @@ class CreateZahinsTable extends Migration
             $table->string('participantType')->nullable();
             $table->string('programmingLanguage')->nullable();
             $table->string('verdict')->nullable();
+            $table->integer('rating')->nullable();
             $table->integer('timeConsumedMillis')->nullable();
             $table->integer('memoryConsumedBytes')->nullable();
             $table->timestamps();
